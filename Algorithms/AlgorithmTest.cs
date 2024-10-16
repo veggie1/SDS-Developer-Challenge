@@ -1,3 +1,4 @@
+using System;
 using Xunit;
 
 namespace DeveloperSample.Algorithms
@@ -9,6 +10,24 @@ namespace DeveloperSample.Algorithms
         public void CanGetFactorial()
         {
             Assert.Equal(24, Algorithms.GetFactorial(4));
+        }
+
+        [Fact]
+        public void CanGetFactorialOne()
+        {
+            Assert.Equal(1, Algorithms.GetFactorial(1));
+        }
+
+        [Fact]
+        public void CanGetFactorialZero()
+        {
+            Assert.Equal(1, Algorithms.GetFactorial(0));
+        }
+
+        [Fact]
+        public void NegativeFactorialThrowsException()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => Algorithms.GetFactorial(-1));
         }
 
         #endregion
