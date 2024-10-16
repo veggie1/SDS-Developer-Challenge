@@ -14,18 +14,41 @@ namespace DeveloperSample.ClassRefactoring
 
     public class SwallowFactory
     {
-        public Swallow GetSwallow(SwallowType swallowType) => new Swallow(swallowType);
+        public Swallow GetSwallow(SwallowType swallowType)
+        {
+            switch (swallowType)
+            {
+                case SwallowType.African:
+                    return new AfricanSwallow();
+                case SwallowType.European:
+                    return new EuropeanSwallow();
+                default:
+                    throw new InvalidOperationException($"Swallow type not allowed: {swallowType}");
+            }
+        }
     }
 
-    public class Swallow
+    public class AfricanSwallow : Swallow
     {
-        public SwallowType Type { get; }
+        public AfricanSwallow()
+        {
+            AirSpeedVelocity = 22;
+        }
+    }
+
+    public class EuropeanSwallow : Swallow
+    {
+        public EuropeanSwallow()
+        {
+            AirSpeedVelocity = 20;
+        }
+    }
+
+    public abstract class Swallow
+    {
         public SwallowLoad Load { get; private set; }
 
-        public Swallow(SwallowType swallowType)
-        {
-            Type = swallowType;
-        }
+        protected double AirSpeedVelocity;
 
         public void ApplyLoad(SwallowLoad load)
         {
@@ -34,23 +57,15 @@ namespace DeveloperSample.ClassRefactoring
 
         public double GetAirspeedVelocity()
         {
-            if (Type == SwallowType.African && Load == SwallowLoad.None)
+            switch (Load)
             {
-                return 22;
+                case SwallowLoad.None:
+                    return AirSpeedVelocity;
+                case SwallowLoad.Coconut:
+                    return AirSpeedVelocity - 4;
+                default:
+                    throw new InvalidOperationException($"Applied load is invalid: {Load}");
             }
-            if (Type == SwallowType.African && Load == SwallowLoad.Coconut)
-            {
-                return 18;
-            }
-            if (Type == SwallowType.European && Load == SwallowLoad.None)
-            {
-                return 20;
-            }
-            if (Type == SwallowType.European && Load == SwallowLoad.Coconut)
-            {
-                return 16;
-            }
-            throw new InvalidOperationException();
         }
     }
 }

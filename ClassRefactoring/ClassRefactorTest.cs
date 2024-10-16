@@ -1,3 +1,4 @@
+using System;
 using Xunit;
 
 namespace DeveloperSample.ClassRefactoring
@@ -9,6 +10,7 @@ namespace DeveloperSample.ClassRefactoring
         {
             var swallowFactory = new SwallowFactory();
             var swallow = swallowFactory.GetSwallow(SwallowType.African);
+
             Assert.Equal(22, swallow.GetAirspeedVelocity());
         }
 
@@ -17,7 +19,9 @@ namespace DeveloperSample.ClassRefactoring
         {
             var swallowFactory = new SwallowFactory();
             var swallow = swallowFactory.GetSwallow(SwallowType.African);
+
             swallow.ApplyLoad(SwallowLoad.Coconut);
+
             Assert.Equal(18, swallow.GetAirspeedVelocity());
         }
 
@@ -26,6 +30,7 @@ namespace DeveloperSample.ClassRefactoring
         {
             var swallowFactory = new SwallowFactory();
             var swallow = swallowFactory.GetSwallow(SwallowType.European);
+
             Assert.Equal(20, swallow.GetAirspeedVelocity());
         }
 
@@ -34,8 +39,29 @@ namespace DeveloperSample.ClassRefactoring
         {
             var swallowFactory = new SwallowFactory();
             var swallow = swallowFactory.GetSwallow(SwallowType.European);
+
             swallow.ApplyLoad(SwallowLoad.Coconut);
+
             Assert.Equal(16, swallow.GetAirspeedVelocity());
+        }
+
+        [Fact]
+        public void InvalidSwallowThrowsException()
+        {
+            var swallowFactory = new SwallowFactory();
+
+            Assert.Throws<InvalidOperationException>(() => swallowFactory.GetSwallow((SwallowType)(-1)));
+        }
+
+        [Fact]
+        public void SwallowLadenWithInvalidLoadThrowsException()
+        {
+            var swallowFactory = new SwallowFactory();
+            var swallow = swallowFactory.GetSwallow(SwallowType.European);
+
+            swallow.ApplyLoad((SwallowLoad)(-1));
+
+            Assert.Throws<InvalidOperationException>(() => swallow.GetAirspeedVelocity());
         }
     }
 }
