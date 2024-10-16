@@ -5,13 +5,23 @@ const LoginForm = (props) => {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
 
+    const [errorMessage, setErrorMessage] = useState('');
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        props.onSubmit({
-            login: name,
-            password: password,
-        });
+        if (Boolean(name) && Boolean(password)) {
+            props.onSubmit({
+                login: name,
+                password: password,
+            });
+
+            setErrorMessage('');
+            setName('');
+            setPassword('');
+        } else {
+            setErrorMessage('Name and Password are required');
+        }
     };
 
     return (
@@ -34,6 +44,7 @@ const LoginForm = (props) => {
                 onChange={(e) => setPassword(e.target.value)}
             />
 
+            {Boolean(errorMessage) && <p>{errorMessage}</p>}
             <button type='submit' onClick={handleSubmit}>
                 Continue
             </button>
