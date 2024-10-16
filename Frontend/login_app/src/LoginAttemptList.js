@@ -1,16 +1,29 @@
-import React from "react";
-import "./LoginAttemptList.css";
+import React, { useState } from 'react';
+import './LoginAttemptList.css';
 
-const LoginAttempt = (props) => <li {...props}>{props.children}</li>;
+const LoginAttemptList = (props) => {
+    const [filteredList, setFilteredList] = useState(props.attempts);
 
-const LoginAttemptList = (props) => (
-	<div className="Attempt-List-Main">
-	 	<p>Recent activity</p>
-	  	<input type="input" placeholder="Filter..." />
-		<ul className="Attempt-List">
-			<LoginAttempt>TODO</LoginAttempt>
-		</ul>
-	</div>
-);
+    const handleFilter = (value) => {
+        const result = filteredList.attempts.filter((item) => {
+            return item.includes(value);
+        });
+
+        setFilteredList(result);
+    };
+
+    return (
+        <div className='Attempt-List-Main'>
+            <p>Recent activity</p>
+            <input type='input' placeholder='Filter...' />
+            <ul className='Attempt-List'>
+                {props.attempts.map((attempt) => {
+                    console.log('in the map', attempt);
+                    return <li>{attempt.login}</li>;
+                })}
+            </ul>
+        </div>
+    );
+};
 
 export default LoginAttemptList;
