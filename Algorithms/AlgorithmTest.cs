@@ -13,6 +13,12 @@ namespace DeveloperSample.Algorithms
         }
 
         [Fact]
+        public void CanGetFactorialOf13()
+        {
+            Assert.Throws<OverflowException>(() => Algorithms.GetFactorial(13));
+        }
+
+        [Fact]
         public void CanGetFactorialOne()
         {
             Assert.Equal(1, Algorithms.GetFactorial(1));

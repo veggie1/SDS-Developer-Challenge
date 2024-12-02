@@ -7,17 +7,19 @@ namespace DeveloperSample.Algorithms
     {
         public static int GetFactorial(int n)
         {
-            if (n < 0) 
-            { 
-                throw new ArgumentOutOfRangeException(nameof(n));
-            }
+            return Enumerable.Range(1, n).Aggregate(1, (x, y) => { checked { return x * y; } });
 
-            if(n == 1 || n==0)
-            {
-                return 1;
-            }
+            //if (n < 0 || n > 12) 
+            //{ 
+            //    throw new ArgumentOutOfRangeException(nameof(n));
+            //}
 
-            return GetFactorial(n-1) * n;
+            //if (n == 1 || n==0)
+            //{
+            //    return 1;
+            //}
+
+            //return GetFactorial(n-1) * n;
         }
 
         public static string FormatSeparators(params string[] items) 
